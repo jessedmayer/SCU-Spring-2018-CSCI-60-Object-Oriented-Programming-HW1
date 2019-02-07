@@ -1,0 +1,349 @@
+//Problem #1
+#include <iostream>
+#include <cstdlib>
+#include <cmath>
+using namespace std;
+
+class CounterType{      //Class used to track a non-negative count
+    public:
+        CounterType(int newcount);
+         int getCount(){ return count;}
+        void SetCounterInc();
+        void SetCounterDec();
+        void Output();
+    private:
+        int count=0;
+
+
+};
+
+void CounterType::SetCounterInc() {     //Increases count by 1
+    count++;
+}
+
+void CounterType::SetCounterDec() {     //Decreases count by 1, if count is negative resets to 0
+    count--;
+    if(count < 0){
+        count = 0;
+    }
+}
+
+void CounterType::Output() {        //Displays count value
+    cout << count << endl;
+}
+
+CounterType::CounterType(int newcount){     //Assigns count to a newcount value, or if newcount is negative assigns it its non-negative equivalent
+    if(newcount<0){
+        count = -newcount;
+    }
+    else{
+        count=newcount;
+    }
+}
+
+int main() {
+    CounterType Count{6};
+    Count.Output();
+    Count.SetCounterInc();
+    Count.Output();
+    Count.SetCounterDec();
+    Count.Output();
+    cout << Count.getCount() << endl;
+    return 0;
+}
+
+//Problem #2
+#include <iostream>
+#include <cstdlib>
+#include <cmath>
+using namespace std;
+
+class Point{        //Class used to track and manipulate a 2D point
+    public:
+        int HorizontalPosition;
+        int VerticalPosition;
+        void set(int hori, int vert);
+        void move(int movehori, int movevert);
+        void rotate();
+        const int getHorizontal(){return HorizontalPosition;}
+        const int getvertical(){return VerticalPosition;}
+};
+
+void Point::set(int hori, int vert) {       //Assigns horizontal and vertical positions for a point
+    HorizontalPosition=hori;
+    VerticalPosition=vert;
+}
+
+void Point::move(int movehori, int movevert) {      //Moves a point along the horizontal and vertical directions
+    HorizontalPosition+=movehori;
+    VerticalPosition+=movevert;
+}
+
+void Point::rotate(){               //rotates point by 90 degrees clockwise
+    int hori=HorizontalPosition;
+    int vert=VerticalPosition;
+    HorizontalPosition=vert;
+    VerticalPosition=-hori;
+}
+
+int main(){
+    Point p1,p2;
+    int h1,v1,h2,v2;
+
+    cout << "Enter Horizontal Position of Point 1:";
+    cin >> h1;
+    cout << "Enter Vertical Position of Point 1:";
+    cin >> v1;
+    cout << "Enter Horizontal Position of Point 2:";
+    cin >> h2;
+    cout << "Enter Vertical Position of Point 2:";
+    cin >> v2;
+
+    p1.set(h1,v1);
+    p1.move(7,5);
+    cout << p1.getHorizontal() << endl;
+    cout << p1.getvertical() << endl;
+    p1.rotate();
+    cout << p1.getHorizontal() << endl;
+    cout << p1.getvertical() << endl;
+    p2.set(h2,v2);
+    p2.move(4,2);
+    cout << p2.getHorizontal() << endl;
+    cout << p2.getvertical() << endl;
+    p2.rotate();
+    cout << p2.getHorizontal() << endl;
+    cout << p2.getvertical() << endl;
+
+    return 0;
+}
+
+//Problem #3
+#include <iostream>
+#include <cstdlib>
+#include <cmath>
+using namespace std;
+
+class GasPump{
+    public:
+        int dispensed=0;    //gallons sold
+        int sales=0;       //revenue
+        int Stop=0;
+        void SellGas(int GasSold);
+        void Output();
+        void StopDispensing();
+    private:
+        int cost=2;     //$2/gallon
+};
+
+void GasPump::SellGas(int GasSold) {        //Sells gas in increments and updates the amount of gas sold and total sales
+    if(Stop==0){
+        for(int i=0; i<GasSold; i++) {
+            dispensed++;
+            sales = dispensed * cost;
+        }
+    }
+}
+void GasPump::Output() {        //Displays overall gallons of gas sold and overall sales
+    cout << "Gallons of Gas Sold:" << dispensed <<endl;
+    cout << "Gas Sales:" << sales <<endl;
+}
+void GasPump::StopDispensing() {        //Stopping mechanism that stops the sale of any more gas from this pump
+    Stop=1;
+}
+
+int main(){
+    GasPump Gas1;
+    int GasSold;
+    while(Gas1.Stop==0) {       //Sells gas till there is a zero transaction that activates the stop function
+        cout << "Enter amount of Gas Sold:" <<endl;
+        cin >> GasSold;
+        if(GasSold>0) {
+            Gas1.SellGas(GasSold);
+        }if( GasSold==0){
+            Gas1.StopDispensing();
+        }
+        Gas1.Output();
+    }
+
+    return 0;
+}
+
+//Problem#4
+#include <iostream>
+#include <cstdlib>
+#include <cmath>
+#include <string>
+#include <sstream>
+using namespace std;
+
+class Month{            //Class that tracks month through an integer
+    public:
+        int month;
+        Month();
+        Month(char one, char two, char three);
+        void SetMonth(int mon);
+        void SetMonth(string mon);
+        void OutputMonthNumber();
+        void OutputMonthAbbreviation();
+        void IncrementMonth();
+};
+    Month::Month(){
+    month;
+}
+
+    Month::Month(char one, char two, char three){      //Creates a month object through the first three letters of that month using three char variables
+    string mon,mon2,mon3;
+    stringstream ss,sl,sr;
+        ss<<one;
+        ss>>mon;
+        sl<<two;
+        sl>>mon2;
+        sr<<three;
+        sr>>mon3;
+        mon2=mon2+mon3;
+        mon=mon+mon2;
+
+
+    if (mon=="jan"){
+        month=1;
+    }
+    if (mon=="feb"){
+        month=2;
+    }
+    if (mon=="mar"){
+        month=3;
+    }
+    if (mon=="apr"){
+        month=4;
+    }
+    if (mon=="may"){
+        month=5;
+    }
+    if (mon=="jun"){
+        month=6;
+    }
+    if (mon=="jul"){
+        month=7;
+    }
+    if (mon=="aug"){
+        month=8;
+    }
+    if (mon=="sep"){
+        month=9;
+    }
+    if (mon=="oct"){
+        month=10;
+    }
+    if (mon=="nov"){
+        month=11;
+    }
+    if (mon=="dec"){
+        month=12;
+    }
+}
+
+void Month::SetMonth(int mon) {     //Sets a month by entering the number of that month
+    month=mon;
+}
+void Month::SetMonth(string mon) {      //Sets a month by entering the first three letters of that month in the form of a single string
+    if (mon=="jan"){
+        month=1;
+    }
+    if (mon=="feb"){
+        month=2;
+    }
+    if (mon=="mar"){
+        month=3;
+    }
+    if (mon=="apr"){
+        month=4;
+    }
+    if (mon=="may"){
+        month=5;
+    }
+    if (mon=="jun"){
+        month=6;
+    }
+    if (mon=="jul"){
+        month=7;
+    }
+    if (mon=="aug"){
+        month=8;
+    }
+    if (mon=="sep"){
+        month=9;
+    }
+    if (mon=="oct"){
+        month=10;
+    }
+    if (mon=="nov"){
+        month=11;
+    }
+    if (mon=="dec"){
+        month=12;
+    }
+}
+void Month::OutputMonthNumber() {           //Displays the number of the month
+    cout<<"Month Number is:" << month << endl;
+}
+void Month::OutputMonthAbbreviation() {      //Displays  the three letter abbreviation of the month
+    string mon;
+    if (month==1){
+        mon="jan";
+    }
+    if (month==2){
+        mon="feb";
+    }
+    if (month==3){
+        mon="mar";
+    }
+    if (month==4){
+        mon="apr";
+    }
+    if (month==5){
+        mon="may";
+    }
+    if (month==6){
+        mon="jun";
+    }
+    if (month==7){
+        mon="jul";
+    }
+    if (month==8){
+        mon="aug";
+    }
+    if (month==9){
+        mon="sep";
+    }
+    if (month==10){
+        mon="oct";
+    }
+    if (month==11){
+        mon="nov";
+    }
+    if (month==12){
+        mon="dec";
+    }
+    cout << "Month Abreviation is:" << mon <<endl;
+}
+void Month::IncrementMonth() {      //Increases the month by 1
+    month++;
+    if(month>12){
+        month=0;
+    }
+}
+
+int main(){
+    Month month1{'m','a','y'};
+    month1.OutputMonthAbbreviation();
+    month1.IncrementMonth();
+    month1.OutputMonthNumber();
+    month1.SetMonth("jan");
+    month1.OutputMonthAbbreviation();
+    Month month2;
+    month2.SetMonth(3);
+    month2.OutputMonthNumber();
+
+
+    return 0;
+}
